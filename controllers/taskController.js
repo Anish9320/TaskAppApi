@@ -39,11 +39,13 @@ const addTask = async (req,res) =>{
     }
 }
 
-const getAllTask = async(req,res) =>{
+const getAllTaskByEmail = async(req,res) =>{
+    const { email } = req.params;
     try{
         const {data: allTaskData, error: allTaskError} = await supabase
         .from("task")
         .select("*")
+        .eq("email",email)
 
         if(allTaskError){
             return res.status(500).send({message: "Error while fetching all task", error: allTaskError.message})
@@ -123,7 +125,7 @@ const deleteTask = async (req,res)=>{
 }
 module.exports = {
     addTask,
-    getAllTask,
+    getAllTaskByEmail,
     editTask,
     deleteTask
 }

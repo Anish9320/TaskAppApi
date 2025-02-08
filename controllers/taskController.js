@@ -56,7 +56,36 @@ const getAllTaskByEmail = async(req,res) =>{
         return res.status(200).json(allTaskData)
     }
     catch(error){
-       return res.status(500).send({message: "Internal Seerver Error!, while fetching",error: error.message})
+       return res.status(500).send({message: "Internal Seerver Error!, while fetching task by email",error: error.message})
+    }
+}
+
+const getTaskById = async (req,res) =>{
+    const { task_id }  = req.params;
+
+    try{
+        if(!task_id){
+            return res.status(500).send({message: "Please provide task id.."})
+        }
+
+        const {data: taskData, error: taskError} = await supabase
+        .from("task")
+        .select("*")
+        .eq("task_id",task_id)
+    
+        if(taskError){
+            return res.status(500).send({message: "Supabase error, while get task by id",error: taskError.message})
+        }
+        
+        if(taskData.length === 0){
+            return res.status(404).send({message: `No task found by ${task_id}`})
+        }
+
+        return res.status(200).json(taskData)
+
+    }
+    catch(error){
+        return res.status(500).send({message: "Internal Seerver Error!, while fetching task by id",error: error.message})
     }
 }
 
@@ -127,5 +156,6 @@ module.exports = {
     addTask,
     getAllTaskByEmail,
     editTask,
-    deleteTask
+    deleteTask,
+    getTaskById
 }

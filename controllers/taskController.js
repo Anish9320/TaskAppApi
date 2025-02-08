@@ -4,10 +4,10 @@ const {supabase } = require('../config/supabaseConfig')
 const addTask = async (req,res) =>{
     try{
 
-        const {user_id ,task_title ,task_desc, due_date, priority, status  } = req.body;
+        const {email ,task_title ,task_desc, due_date, priority, status  } = req.body;
         
-        if(!user_id || !task_title ||!task_desc || !due_date || priority == null || status == null){
-            console.log(user_id,task_title,task_desc,due_date,priority,status)
+        if(!email || !task_title ||!task_desc || !due_date || priority == null || status == null){
+            console.log(email,task_title,task_desc,due_date,priority,status)
             return res.status(500).send({message: "Please Provide Complete information!.."})
         }
         var task_id = Math.round(Math.random() * 1000000)
@@ -18,7 +18,7 @@ const addTask = async (req,res) =>{
             [
                 {
                     task_id,
-                    user_id,
+                    email,
                     task_title,
                     task_desc,
                     due_date,

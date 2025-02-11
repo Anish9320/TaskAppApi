@@ -1,6 +1,7 @@
+require("dotenv").config()
 const checkAuth = (req,res,next) =>{
     const header = req.headers['auth']
-    if(header !== 'ZjVGZPUtYW1hX2FuZHJvaWRfMjAyMzY0MjU='){
+    if(header !== process.env.AUTH_KEY){
         return res.status(403).send({message: 'Authentication Failed'})
     }
     next();
